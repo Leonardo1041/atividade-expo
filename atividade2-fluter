@@ -1,0 +1,197 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: TelaInicial(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
+}
+
+// TELA 1
+class TelaInicial extends StatelessWidget {
+
+  final TextEditingController nomeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tela Inicial'),
+        backgroundColor: Colors.blue,
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          children: [
+
+            TextField(
+              controller: nomeController,
+              decoration: InputDecoration(
+                labelText: 'Nome',
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+
+                  MaterialPageRoute(
+                    builder: (context) => TelaAtivo(
+                      nome: nomeController.text,
+                    ),
+                  ),
+                );
+              },
+
+              child: Text('Próximo'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// TELA 2
+class TelaAtivo extends StatelessWidget {
+
+  final String nome;
+
+  TelaAtivo({required this.nome});
+
+  final TextEditingController ativoController = TextEditingController();
+  final TextEditingController valorController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Selecionar Ativo'),
+        backgroundColor: Colors.green,
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          children: [
+
+            Text('Olá, $nome'),
+
+            SizedBox(height: 20),
+
+            TextField(
+              controller: ativoController,
+              decoration: InputDecoration(
+                labelText: 'Criptomoeda',
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            TextField(
+              controller: valorController,
+              decoration: InputDecoration(
+                labelText: 'Valor',
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+
+                  MaterialPageRoute(
+                    builder: (context) => TelaRecibo(
+                      nome: nome,
+                      ativo: ativoController.text,
+                      valor: valorController.text,
+                    ),
+                  ),
+                );
+              },
+
+              child: Text('Ver Comprovante'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// TELA 3
+class TelaRecibo extends StatelessWidget {
+
+  final String nome;
+  final String ativo;
+  final String valor;
+
+  TelaRecibo({
+    required this.nome,
+    required this.ativo,
+    required this.valor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Comprovante'),
+        backgroundColor: Colors.purple,
+      ),
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+
+            Text('Comprovante de Operação'),
+
+            SizedBox(height: 20),
+
+            Text('Investidor: $nome'),
+            Text('Ativo: $ativo'),
+            Text('Total: R\$ $valor'),
+
+            SizedBox(height: 30),
+
+            ElevatedButton(
+              onPressed: () {
+
+                Navigator.popUntil(
+                  context,
+                  (route) => route.isFirst,
+                );
+              },
+
+              child: Text('Confirmar'),
+            ),
+
+            SizedBox(height: 10),
+
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Corrigir Ativo'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
